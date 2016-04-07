@@ -8,6 +8,7 @@ gem 'sqlite3'
 gem 'devise'
 gem 'pry'
 gem 'pry-remote'
+gem 'paperclip'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets

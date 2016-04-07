@@ -1,34 +1,20 @@
-<p id="notice"><%= notice %></p>
-
-<p>
-  <strong>Author:</strong>
-  <%= @book.author %>
-</p>
-
-<p>
-  <strong>Title:</strong>
-  <%= @book.title %>
-</p>
-
-<p>
-  <strong>Category:</strong>
-  <%= @book.category %>
-</p>
-
-<p>
-  <strong>Kind:</strong>
-  <%= @book.kind %>
-</p>
-
-<p>
-  <strong>Price:</strong>
-  <%= @book.price %>
-</p>
-
-<p>
-  <strong>Quantity:</strong>
-  <%= @book.quantity %>
-</p>
+<div class="row shop">
+  <div class="col-sm-4 col-md-3">
+    <%= image_tag(@book.image.url(:medium), class: 'image') %>
+    <ul>
+      <%= content_tag(:li, ("Author: " + @book.author)) %>
+      <%= content_tag(:li, ("Title: " + @book.title)) %>
+      <%= content_tag(:li, ("Category: " + @book.category)) %>
+      <%= content_tag(:li, ("Kind: " + @book.kind)) %>
+      <%= content_tag(:li, ("Quantity: " + @book.quantity)) %>
+      <%= content_tag(:li, ("Price: " + @book.price)) %>
+    </ul>
+  </div>
+  <div class="feed">
+    <h3>Social Feed Coming</h3>
+    <p>Put a couple of lines of text here and see how it scrolls</p>
+  </div>
+</div>
 
 <%= link_to 'Edit', edit_book_path(@book) %> |
 <%= link_to 'Back', books_path %>

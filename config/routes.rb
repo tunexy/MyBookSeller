@@ -1,7 +1,10 @@
 Rails.application.routes.draw do
 
-  devise_for :users
+  resources :reviews
   root 'bookshop#index'
+
+  devise_for :users
+  resources :users, only: [:index, :show]
 
   resources :clients, except: [:new]
 
