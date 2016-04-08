@@ -1,35 +1,41 @@
 class BooksController < ApplicationController
   before_action :set_book, only: [:show, :edit, :update, :destroy]
-
-  # GET /books
-  # GET /books.json
-  def index
+  before_action :authenticate_user!, except: [:index, :show]
+  
+  def titleindex
+    @books = Book.search(params[:search])
+  end
+  def index 
     @books = Book.all
   end
 
-  # GET /books/1
-  # GET /books/1.json
   def show
+    @reviews = Review.where(book_id: @book.id).order("created_at DESC")
   end
 
-  # GET /books/new
   def new
     @book = Book.new
   end
 
-  # GET /books/1/edit
+  def search
+    @books = Book.search params[:query]
+    unless @books.empty? #if !@modelnames.empty?
+      render 'index'
+    else
+      flash[:notice] = 'No record matches that records'
+      render 'index'
+    end
+  end
+
   def edit
   end
 
-  # POST /books
-  # POST /books.json
   def create
-    @book = Book.find(params[:book_id])
-    @lineitem = @cart.add_book(book_id)
+    @book = Book.new(book_params)
 
     respond_to do |format|
-      if @lineitem.save
-        format.html { redirect_to @cart, notice: 'Line item was successfully created.' }
+      if @book.save
+        format.html { redirect_to @book, notice: 'Line item was successfully created.' }
         format.json { render :show, status: :created, location: @lineitem }
       else
         format.html { render :new }
@@ -38,8 +44,6 @@ class BooksController < ApplicationController
     end
   end
 
-  # PATCH/PUT /books/1
-  # PATCH/PUT /books/1.json
   def update
     respond_to do |format|
       if @book.update(book_params)
@@ -52,8 +56,6 @@ class BooksController < ApplicationController
     end
   end
 
-  # DELETE /books/1
-  # DELETE /books/1.json
   def destroy
     @book.destroy
     respond_to do |format|

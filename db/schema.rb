@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160407163749) do
+ActiveRecord::Schema.define(version: 20160408172502) do
 
   create_table "books", force: :cascade do |t|
     t.string   "author"
@@ -20,22 +20,17 @@ ActiveRecord::Schema.define(version: 20160407163749) do
     t.string   "kind"
     t.decimal  "price"
     t.integer  "quantity"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
   end
 
   create_table "carts", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "clients", force: :cascade do |t|
-    t.string   "name"
-    t.string   "email"
-    t.boolean  "is_type",         default: false
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
-    t.string   "password_digest"
   end
 
   create_table "lineitems", force: :cascade do |t|
@@ -48,11 +43,11 @@ ActiveRecord::Schema.define(version: 20160407163749) do
   end
 
   create_table "orders", force: :cascade do |t|
-    t.integer  "client_id"
+    t.integer  "customer_id"
     t.string   "paymethod"
     t.decimal  "total"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   create_table "reviews", force: :cascade do |t|
@@ -60,6 +55,8 @@ ActiveRecord::Schema.define(version: 20160407163749) do
     t.text     "comment"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "user_id"
+    t.integer  "book_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -79,6 +76,10 @@ ActiveRecord::Schema.define(version: 20160407163749) do
     t.boolean  "is_admin",               default: false
     t.string   "address1"
     t.string   "address2"
+    t.string   "avatar_file_name"
+    t.string   "avatar_content_type"
+    t.integer  "avatar_file_size"
+    t.datetime "avatar_updated_at"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true

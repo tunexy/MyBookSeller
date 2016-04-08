@@ -19,4 +19,10 @@ class ApplicationController < ActionController::Base
 				@cart = Cart.new
 				session[:cart_id] = @cart.id
 		end
+
+  def must_be_admin
+    unless current_user && current_user.is_admin?
+      redirect_to root_path, notice: "Only admin have access"
+    end
+  end
 end

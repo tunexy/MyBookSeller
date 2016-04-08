@@ -1,20 +1,39 @@
 <div class="row shop">
   <div class="col-sm-4 col-md-3">
+    <h4>Price : <span class="label label-info"> <%= @book.price %></span></h4>
     <%= image_tag(@book.image.url(:medium), class: 'image') %>
+    <h4>Price : <span class="label label-info"> <%= @book.quantity %></span></h4>
     <ul>
       <%= content_tag(:li, ("Author: " + @book.author)) %>
       <%= content_tag(:li, ("Title: " + @book.title)) %>
       <%= content_tag(:li, ("Category: " + @book.category)) %>
       <%= content_tag(:li, ("Kind: " + @book.kind)) %>
-      <%= content_tag(:li, ("Quantity: " + @book.quantity)) %>
-      <%= content_tag(:li, ("Price: " + @book.price)) %>
     </ul>
   </div>
+
   <div class="feed">
     <h3>Social Feed Coming</h3>
-    <p>Put a couple of lines of text here and see how it scrolls</p>
+    <% if @reviews.blank? %>
+      <h3>No Comment just yet, Would you like to add the first Review</h3>
+      <%= link_to "Write a Review", new_book_review_path(@book), class: "btn btn-danger" %>
+      <% else %>
+        <% @reviews.each do |review| %>
+          <div class="row">
+            <p>
+              <i><small>Commenter: <%= review.user.email %></small></i>
+            </p>
+             
+            <div class="col-sm-9 well">
+              <h5><%= review.rating %></h5>
+              <p><h5><%= simple_format(review.comment) %></h5></p>
+              <p><i>
+                <span class='quiet'><small> <%= time_ago_in_words(review.created_at)%> ago</small></span>
+              </i></p>
+            </div>
+            <hr/>
+          </div>
+        <% end %>
+    <% end %>
   </div>
-</div>
-
 <%= link_to 'Edit', edit_book_path(@book) %> |
 <%= link_to 'Back', books_path %>

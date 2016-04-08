@@ -1,22 +1,19 @@
 Rails.application.routes.draw do
 
-  resources :reviews
   root 'bookshop#index'
 
   devise_for :users
   resources :users, only: [:index, :show]
 
-  resources :clients, except: [:new]
-
-  get '/register', to: 'clients#new'
-
-  resources :orders
+  resources :books do
+    resources :reviews, except: [:show, :index]
+  end
 
   resources :carts do
     resources :lineitems
   end
 
-  resources :books
+  resources :orders
 
   get 'page/about'
 

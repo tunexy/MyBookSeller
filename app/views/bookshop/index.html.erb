@@ -1,32 +1,16 @@
 
 <h1>Books for Sale</h1> 
+
 <% if !@books.empty? %>
-	<% @books.each do |book| %>
-	<h3><%= product.title %></h3>
-		<h3><%= book.author %></h3>
-		<h3><%= book.kind %></h3>
-		<%= euro(book.price) %>
-		<%= button_to 'Add to Cart', lineitems_path(book_id: book) %>
-	<% end %> 
+  <% @books.each do |book| %>
+    <%= image_tag(book.image, :size => "50x50") %>
+    <h3><%= book.title %></h3>
+    <h3><%= book.author %></h3>
+    <h3><%= book.kind %></h3>
+    <h3><%= number_to_currency(book.price, :unit => '€') %></h3>
+    <%= button_to 'Add to Cart', lineitems_path(book_id: book) %>
+  <% end %> 
 <% else %>
-<p>There are no products for sale</p> 
+  <p>There are no books for sale</p> 
 <% end %>
 
-<div class="container">
-  <div class="books row">
-    <% @books.each do |book| %>
-      <div class="panel panel-default">
-        <%= link_to book_path(book) do %>
-          <div class="panel-body">
-            <%= image_tag(book.image.url(:medium)) %>
-            <h3><%= book.title %></h3>
-						<h3><%= book.author %></h3>
-						<h3><%= book.kind %></h3>
-						<%= euro(book.price) %>
-					<%= button_to 'Add to Cart', lineitems_path(book_id: book) %>
-          </div>
-        <% end %>
-      </div>
-    <% end %>
-  </div>
-</div>

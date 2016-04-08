@@ -1,4 +1,5 @@
 class LineitemsController < ApplicationController
+  before_action :must_be_admin
   before_action :set_lineitem, only: [:show, :edit, :update, :destroy]
 
   # GET /lineitems
@@ -7,38 +8,23 @@ class LineitemsController < ApplicationController
     @lineitems = Lineitem.all
   end
 
-  # GET /lineitems/1
-  # GET /lineitems/1.json
   def show
   end
 
-  # GET /lineitems/new
   def new
     @lineitem = Lineitem.new
   end
 
-  # GET /lineitems/1/edit
   def edit
   end
 
-def add_book(book_id)
-  current_item = lineitems.find_by_book_id(book_id) 
-  if current_item
-    current_item.quantity += 1 
-  else
-    current_item = lineitems.new(product_id: book_id)
-    current_item.quantity = 1 
-  end
-  current_item 
-end
-  # POST /lineitems
-  # POST /lineitems.json
   def create
-    @lineitem = Lineitem.new(lineitem_params)
+    book = Book.find(params[:book_id])
+    @lineitem = @cart.add_book(book.id)
 
     respond_to do |format|
       if @lineitem.save
-        format.html { redirect_to @lineitem, notice: 'Lineitem was successfully created.' }
+        format.html { redirect_to @cart, notice: 'Lineitem was successfully created.' }
         format.json { render :show, status: :created, location: @lineitem }
       else
         format.html { render :new }
@@ -81,4 +67,11 @@ end
     def lineitem_params
       params.require(:lineitem).permit(:book_id, :order_id, :quantity, :cart_id)
     end
+
+    def must_be_admin
+      unless current_user && current_user.is_admin?
+        redirect_to root_path, notice: "Only admin have access"
+      end
+    end
+
 end

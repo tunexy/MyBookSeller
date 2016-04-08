@@ -1,33 +1,40 @@
 class OrdersController < ApplicationController
-  before_action :set_order, only: [:show, :edit, :update, :destroy]
   before_action :authorise
+  before_action :set_order, only: [:show, :edit, :update, :destroy]
 
-
+  # GET /orders
+  # GET /orders.json
   def index
     @orders = Order.all
   end
 
+  # GET /orders/1
+  # GET /orders/1.json
   def show
   end
 
+  # GET /orders/new
   def new
     @order = Order.new
   end
 
+  # GET /orders/1/edit
   def edit
   end
 
+  # POST /orders
+  # POST /orders.json
   def create
     @order = Order.new(params[:order])
     @order.add_lineitems_from_cart(current_cart) 
-    @order.user_id = @current_user.id
+    @order.customer_id = @current_user.id
 
     respond_to do |format|
       if @order.save
         Cart.destroy(session[:cart_id]) 
         session[:cart_id] = nil
-        format.html { redirect_to @order, notice: 'Thank you for your Order .' }
-        format.json { render :show, @order, status: :created, location: @order }
+        format.html { redirect_to root_path, notice: 'Thank You for your Order.' }
+        format.json { render :show, status: :created, location: @order }
       else
         @cart = current_cart
         format.html { render :new }
@@ -36,6 +43,8 @@ class OrdersController < ApplicationController
     end
   end
 
+  # PATCH/PUT /orders/1
+  # PATCH/PUT /orders/1.json
   def update
     respond_to do |format|
       if @order.update(order_params)
@@ -48,6 +57,8 @@ class OrdersController < ApplicationController
     end
   end
 
+  # DELETE /orders/1
+  # DELETE /orders/1.json
   def destroy
     @order.destroy
     respond_to do |format|
@@ -64,6 +75,6 @@ class OrdersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def order_params
-      params.require(:order).permit(:user_id, :paymethod, :total)
+      params.require(:order).permit(:customer_id, :paymethod, :total)
     end
 end
