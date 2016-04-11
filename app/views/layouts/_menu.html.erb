@@ -1,24 +1,24 @@
 <nav class="navbar navbar-default" role="navigation">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
+    <nav id="nav">
+  <div id="page_nav">
+      <%= link_to " Home ", root_path %>
+      <%= link_to " About ", page_about_path %>
+      <%= link_to " FAQs ", page_faqs_path %>
+      <%= link_to " Books ", books_path %>
             </button>
             <%= link_to "Book App", root_path, class: 'navbar-brand' %>
         </div>
 
         <div class="collapse navbar-collapse" id="navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
-                <li><%= link_to 'Reviews', '#' %></li>
-                <% if current_user %>
-                    <li><%= link_to 'Edit Profile',edit_user_registration_path %></li>
-                    <li><%= link_to 'Logout', destroy_user_session_path, method: :delete %></li>
-                    <li class="round-image-50"><%= image_tag(current_user.avatar.url(:thumb)) %></li>
+                <%= link_to 'Customer', 'users_path' %>
+                <% if user_signed_in? %>
+                  <%= link_to 'Profile',edit_user_registration_path %>
+                  <%= link_to 'Logout', destroy_user_session_path, method: :delete %></li>
+                  <li class="round-image-50"><%= image_tag(current_user.avatar.url(:thumb)) %></li>
                 <% else %>
-                    <li><%= link_to 'Login', new_user_session_path %></li>
+                    <li><%= link_to 'Sign In', new_user_session_path %></li>
+                    </li><%= link_to " Sign Up ", new_user_registration_path %></li>
                 <% end %>
             </ul>
         </div>

@@ -1,16 +1,22 @@
 
 <h1>Books for Sale</h1> 
 
+<%= form_tag books_path, :method => "get" do %> 
+	<%= text_field_tag(:search, params[:search]) %> 
+	<%= submit_tag "Search" %>
+<% end %>
+
 <% if !@books.empty? %>
   <% @books.each do |book| %>
-    <%= image_tag(book.image, :size => "50x50") %>
-    <h3><%= book.title %></h3>
+    <%= image_tag(book.image, :size => "100x100") %>
+    <h3><%= link_to book.title, book_path(book) %></h3>
     <h3><%= book.author %></h3>
     <h3><%= book.kind %></h3>
     <h3><%= number_to_currency(book.price, :unit => '€') %></h3>
-    <%= button_to 'Add to Cart', lineitems_path(book_id: book) %>
+    <td><a href="/basket/<%= book.id %>"> Add to Basket</a></td>
   <% end %> 
 <% else %>
   <p>There are no books for sale</p> 
 <% end %>
+<%= link_to 'New Book', new_book_path %>
 

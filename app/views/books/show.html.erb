@@ -1,11 +1,13 @@
+
 <div class="row shop">
   <div class="col-sm-4 col-md-3">
-    <h4>Price : <span class="label label-info"> <%= @book.price %></span></h4>
+    <h4>Price : <span class="label label-info"> 
+      <%= @book.price %></span></h4>
     <%= image_tag(@book.image.url(:medium), class: 'image') %>
     <h4>Price : <span class="label label-info"> <%= @book.quantity %></span></h4>
     <ul>
       <%= content_tag(:li, ("Author: " + @book.author)) %>
-      <%= content_tag(:li, ("Title: " + @book.title)) %>
+      <%= link_to content_tag(:li, ("Title: " + @book.title)) %>
       <%= content_tag(:li, ("Category: " + @book.category)) %>
       <%= content_tag(:li, ("Kind: " + @book.kind)) %>
     </ul>
@@ -35,5 +37,6 @@
         <% end %>
     <% end %>
   </div>
+</div>
 <%= link_to 'Edit', edit_book_path(@book) %> |
 <%= link_to 'Back', books_path %>

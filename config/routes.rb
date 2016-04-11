@@ -1,6 +1,12 @@
 Rails.application.routes.draw do
 
+  #get 'basket/index'
+
   root 'bookshop#index'
+
+  get '/basket' => 'basket#index'
+  get '/basket/clear' => 'basket#clearbasket'
+  get '/basket/:id' => 'basket#add'
 
   devise_for :users
   resources :users, only: [:index, :show]
@@ -13,6 +19,7 @@ Rails.application.routes.draw do
     resources :lineitems
   end
 
+  resources :lineitems
   resources :orders
 
   get 'page/about'

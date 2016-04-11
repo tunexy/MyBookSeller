@@ -1,5 +1,5 @@
 class LineitemsController < ApplicationController
-  before_action :must_be_admin
+  before_action :current_cart
   before_action :set_lineitem, only: [:show, :edit, :update, :destroy]
 
   # GET /lineitems
@@ -24,7 +24,7 @@ class LineitemsController < ApplicationController
 
     respond_to do |format|
       if @lineitem.save
-        format.html { redirect_to @cart, notice: 'Lineitem was successfully created.' }
+        format.html { redirect_to root_path, notice: 'Lineitem was successfully created.' }
         format.json { render :show, status: :created, location: @lineitem }
       else
         format.html { render :new }
@@ -66,12 +66,6 @@ class LineitemsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def lineitem_params
       params.require(:lineitem).permit(:book_id, :order_id, :quantity, :cart_id)
-    end
-
-    def must_be_admin
-      unless current_user && current_user.is_admin?
-        redirect_to root_path, notice: "Only admin have access"
-      end
     end
 
 end

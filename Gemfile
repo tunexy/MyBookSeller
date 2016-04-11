@@ -9,6 +9,7 @@ gem 'devise'
 gem 'pry'
 gem 'pry-remote'
 gem 'paperclip'
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
@@ -49,3 +50,7 @@ group :development do
   gem 'spring'
 end
 
+
+gem 'spree', '~> 3.0.8'
+gem 'spree_gateway', '~> 3.0.0'
+gem 'spree_auth_devise', '~> 3.0.0'

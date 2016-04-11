@@ -1,13 +1,22 @@
 class BooksController < ApplicationController
+  #before_action :must_be_admin
   before_action :set_book, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!, except: [:index, :show]
+
   
   def titleindex
-    @books = Book.search(params[:search])
+    @books = Book.search params[:query]
+    unless @books.empty? #if !@modelnames.empty?
+      render 'index'
+    else
+      flash[:notice] = 'No record matches that records'
+      render 'index'
+    end
   end
+
   def index 
-    @books = Book.all
-  end
+    @books = Book.search(params[:search])
+  end 
 
   def show
     @reviews = Review.where(book_id: @book.id).order("created_at DESC")
@@ -31,7 +40,7 @@ class BooksController < ApplicationController
   end
 
   def create
-    @book = Book.new(book_params)
+    @book = Book.new(book_params) 
 
     respond_to do |format|
       if @book.save
@@ -70,8 +79,15 @@ class BooksController < ApplicationController
       @book = Book.find(params[:id])
     end
 
+    #def must_be_admin
+    #  unless current_user && current_user.is_admin?
+    #    redirect_to root_path, notice: "Only admin have access"
+    #  end
+    #end
+
     # Never trust parameters from the scary internet, only allow the white list through.
     def book_params
       params.require(:book).permit(:author, :title, :category, :kind, :price, :quantity, :image)
     end
+  
 end
